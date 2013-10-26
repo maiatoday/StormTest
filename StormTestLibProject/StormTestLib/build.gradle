@@ -1,0 +1,60 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.6.+'
+    }
+}
+apply plugin: 'android-library'
+apply plugin: 'maven'
+//variables used to publish to maven
+version '0.1' //when this is automated you can get this from the build server
+group 'com.sample'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "18.0.1"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 18
+    }
+}
+
+dependencies {
+	compile 'com.android.support:appcompat-v7:+'
+    compile 'log4j:log4j:1.2.17'
+    compile files('libs/storm-apt-0.96.jar')
+}
+
+android.libraryVariants.all { variant ->
+    def aptOutput = file("${project.buildDir}/source/apt_generated/${variant.dirName}")
+
+    variant.javaCompile.options.compilerArgs += [
+            "-processor", "com.turbomanage.storm.apt.MainProcessor",
+            '-AandroidManifestFile=' + variant.processResources.manifestFile,
+            '-s', aptOutput
+    ]
+
+    variant.javaCompile.source = variant.javaCompile.source.filter { p ->
+        return !p.getPath().startsWith(aptOutput.getPath())
+    }
+
+    variant.javaCompile.doFirst {
+        aptOutput.mkdirs()
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url: 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+        }
+    }
+}
+task install(dependsOn: uploadArchives)

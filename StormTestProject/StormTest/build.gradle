@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.6.+'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "18.0.1"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 18
+    }
+}
+
+dependencies {
+	compile 'com.android.support:appcompat-v7:+'
+    compile 'log4j:log4j:1.2.17'
+    compile files('libs/storm-apt-0.96.jar')
+}
+
+android.applicationVariants.all { variant ->
+    def aptOutput = file("${project.buildDir}/source/apt_generated/${variant.dirName}")
+
+    variant.javaCompile.options.compilerArgs += [
+            "-processor", "com.turbomanage.storm.apt.MainProcessor",
+            '-AandroidManifestFile=' + variant.processResources.manifestFile,
+            '-s', aptOutput
+    ]
+
+    variant.javaCompile.source = variant.javaCompile.source.filter { p ->
+        return !p.getPath().startsWith(aptOutput.getPath())
+    }
+
+    variant.javaCompile.doFirst {
+        aptOutput.mkdirs()
+    }
+}

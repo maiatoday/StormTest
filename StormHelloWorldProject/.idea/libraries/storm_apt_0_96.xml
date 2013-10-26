@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="storm-apt-0.96">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/StormHelloWorld/build/exploded-bundles/ComSampleStormTestLib01.aar/libs/storm-apt-0.96.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/StormTestLib/StormTestLib.iml" filepath="$PROJECT_DIR$/StormTestLib/StormTestLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/StormTestLibProject.iml" filepath="$PROJECT_DIR$/StormTestLibProject.iml" />
+    </modules>
+  </component>
+</project>
+

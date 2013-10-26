@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="storm-api-0.97">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/StormTest/libs/storm-api-0.97.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
